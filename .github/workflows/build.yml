@@ -11,6 +11,7 @@ jobs:
     env:
       KEY_REPO: ${{ secrets.KEY_REPO }}
       KEY_TOKEN: ${{ secrets.KEY_TOKEN }}
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v5
       - name: Checkout Android Keystore
