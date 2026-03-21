@@ -11,23 +11,22 @@ jobs:
     env:
       KEY_REPO: ${{ secrets.KEY_REPO }}
       KEY_TOKEN: ${{ secrets.KEY_TOKEN }}
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v3
       - name: Checkout Android Keystore
         if: ${{ env.KEY_REPO != '' && env.KEY_TOKEN != '' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v3
         with:
           repository: ${{ env.KEY_REPO }}
           token: ${{ env.KEY_TOKEN }}
           path: keystore
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/gradle-build-action@v2
       - name: Build With Gradle
         run: |
           echo "开始编译打包"
