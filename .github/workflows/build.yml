@@ -26,7 +26,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4.4.2
+        uses: gradle/actions/setup-gradle@v5
       - name: Build With Gradle
         run: |
           echo "开始编译打包"
