@@ -28,11 +28,11 @@ jobs:
       - name: Copy keystore file
         run: |
           mkdir -p app/keystore
-          cp keystore/*.keystore app/keystore/
+          cp keystore/*.jks app/keystore/
 
       - name: Prepare keystore.properties
         run: |
-          echo "storeFile=app/keystore/$(ls app/keystore/*.keystore | xargs -n1 basename)" > app/keystore/keystore.properties
+          echo "storeFile=app/keystore/$(ls app/keystore/*.jks | xargs -n1 basename)" > app/keystore/keystore.properties
           echo "storePassword=${STORE_PASSWORD}" >> app/keystore/keystore.properties
           echo "keyAlias=${KEY_ALIAS}" >> app/keystore/keystore.properties
           echo "keyPassword=${KEY_PASSWORD}" >> app/keystore/keystore.properties
@@ -46,12 +46,12 @@ jobs:
           echo "=== 检查 keystore.properties 中的 keyAlias 字段 ==="
           grep "keyAlias" app/keystore/keystore.properties
 
-      - name: Check keystore alias with keytool (PKCS12)
+      - name: Check keystore alias with keytool (jks)
         run: |
-          echo "=== 使用 keytool 检查 keystore 文件中的 alias (PKCS12) ==="
-          FILE=$(ls app/keystore/*.keystore | head -n1)
+          echo "=== 使用 keytool 检查 keystore 文件中的 alias (jks) ==="
+          FILE=$(ls app/keystore/*.jks | head -n1)
           echo "检查文件: $FILE"
-          keytool -list -v -keystore "$FILE" -storepass "${STORE_PASSWORD}" -storetype PKCS12 | grep "Alias name" || echo "⚠️ keystore 检查失败，请确认密码和 alias 是否正确"
+          keytool -list -v -keystore "$FILE" -storepass "${STORE_PASSWORD}" -storetype jks | grep "Alias name" || echo "⚠️ keystore 检查失败，请确认密码和 alias 是否正确"
 
       - name: Set up Java
         uses: actions/setup-java@v5
