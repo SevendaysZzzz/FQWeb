@@ -33,7 +33,7 @@ jobs:
           chmod +x gradlew
           ./gradlew :app:assembleRelease --build-cache --parallel --daemon --warning-mode all
       - name: Upload Artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: FQWeb
           path: ${{ github.workspace }}/app/build/outputs/apk/*/FQWeb*.apk
