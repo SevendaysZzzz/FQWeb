@@ -46,6 +46,11 @@ jobs:
           echo "=== 检查 keystore.properties 中的 keyAlias 字段 ==="
           grep "keyAlias" app/keystore/keystore.properties
 
+      - name: Check keystore alias with keytool
+        run: |
+          echo "=== 使用 keytool 检查 keystore 文件中的 alias ==="
+          keytool -list -keystore app/keystore/*.keystore -storepass "${STORE_PASSWORD}" | grep "Alias name"
+
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
@@ -59,7 +64,7 @@ jobs:
         run: |
           echo "开始编译打包"
           chmod +x gradlew
-          ./gradlew :app:assembleRelease --build-cache --parallel --daemon --warning-mode all
+          ./gradlew :app:assembleRelease --build-cache --parallel --daemon --warning-mode all --info
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
