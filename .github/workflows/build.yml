@@ -27,10 +27,11 @@ jobs:
 
       - name: Generate keystore.properties
         run: |
-          echo "storeFile=keystore/my-release-key.keystore" > keystore/keystore.properties
-          echo "storePassword=${STORE_PASSWORD}" >> keystore/keystore.properties
-          echo "keyAlias=${KEY_ALIAS}" >> keystore/keystore.properties
-          echo "keyPassword=${KEY_PASSWORD}" >> keystore/keystore.properties
+          mkdir -p app/keystore
+          echo "storeFile=app/keystore/my-release-key.keystore" > app/keystore/keystore.properties
+          echo "storePassword=${STORE_PASSWORD}" >> app/keystore/keystore.properties
+          echo "keyAlias=${KEY_ALIAS}" >> app/keystore/keystore.properties
+          echo "keyPassword=${KEY_PASSWORD}" >> app/keystore/keystore.properties
 
       - name: Set up Java
         uses: actions/setup-java@v5
