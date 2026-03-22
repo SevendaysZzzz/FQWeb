@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches:
-      - master
+      - master   # 或 main，确认你的默认分支
 
 jobs:
   build:
@@ -25,10 +25,14 @@ jobs:
           token: ${{ env.KEY_TOKEN }}
           path: keystore
 
-      - name: Generate keystore.properties
+      - name: Copy keystore file
         run: |
           mkdir -p app/keystore
-          echo "storeFile=app/keystore/my-release-key.keystore" > app/keystore/keystore.properties
+          cp keystore/*.keystore app/keystore/
+
+      - name: Prepare keystore.properties
+        run: |
+          echo "storeFile=app/keystore/$(ls app/keystore/*.keystore | xargs -n1 basename)" > app/keystore/keystore.properties
           echo "storePassword=${STORE_PASSWORD}" >> app/keystore/keystore.properties
           echo "keyAlias=${KEY_ALIAS}" >> app/keystore/keystore.properties
           echo "keyPassword=${KEY_PASSWORD}" >> app/keystore/keystore.properties
