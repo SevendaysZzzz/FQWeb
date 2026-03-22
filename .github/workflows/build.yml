@@ -27,10 +27,8 @@ jobs:
 
       - name: Verify keystore file
         run: |
-          echo "检查 app/keystore 目录内容："
-          ls -l app/keystore
-          echo "检查 keystore.properties 内容："
-          cat app/keystore/keystore.properties
+          echo "检查 ./keystore 目录内容："
+          ls -l ./keystore
 
       - name: Copy keystore file
         run: |
@@ -43,6 +41,8 @@ jobs:
           echo "storePassword=${STORE_PASSWORD}" >> app/keystore/keystore.properties
           echo "keyAlias=${KEY_ALIAS}" >> app/keystore/keystore.properties
           echo "keyPassword=${KEY_PASSWORD}" >> app/keystore/keystore.properties
+          echo "检查 app/keystore 目录内容："
+          ls -l app/keystore
 
       - name: Set up Java
         uses: actions/setup-java@v5
