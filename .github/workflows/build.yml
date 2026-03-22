@@ -25,6 +25,13 @@ jobs:
           token: ${{ env.KEY_TOKEN }}
           path: keystore
 
+      - name: Verify keystore file
+        run: |
+          echo "检查 app/keystore 目录内容："
+          ls -l app/keystore
+          echo "检查 keystore.properties 内容："
+          cat app/keystore/keystore.properties
+
       - name: Copy keystore file
         run: |
           mkdir -p app/keystore
