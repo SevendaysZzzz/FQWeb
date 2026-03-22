@@ -11,8 +11,12 @@ jobs:
     env:
       KEY_REPO: ${{ secrets.KEY_REPO }}
       KEY_TOKEN: ${{ secrets.KEY_TOKEN }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
     steps:
       - uses: actions/checkout@v6
+
       - name: Checkout Android Keystore
         if: ${{ env.KEY_REPO != '' && env.KEY_TOKEN != '' }}
         uses: actions/checkout@v6
@@ -20,20 +24,31 @@ jobs:
           repository: ${{ env.KEY_REPO }}
           token: ${{ env.KEY_TOKEN }}
           path: keystore
+
+      - name: Generate keystore.properties
+        run: |
+          echo "storeFile=keystore/my-release-key.keystore" > keystore/keystore.properties
+          echo "storePassword=${STORE_PASSWORD}" >> keystore/keystore.properties
+          echo "keyAlias=${KEY_ALIAS}" >> keystore/keystore.properties
+          echo "keyPassword=${KEY_PASSWORD}" >> keystore/keystore.properties
+
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
+
       - name: Build With Gradle
         run: |
           echo "开始编译打包"
           chmod +x gradlew
           ./gradlew :app:assembleRelease --build-cache --parallel --daemon --warning-mode all
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
         with:
           name: FQWeb
-          path: ${{ github.workspace }}/app/build/outputs/apk/*/FQWeb*.apk
+          path: ${{ github.workspace }}/app/build/outputs/apk/release/*.apk
