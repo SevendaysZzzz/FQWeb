@@ -25,11 +25,6 @@ jobs:
           token: ${{ env.KEY_TOKEN }}
           path: keystore
 
-      - name: Verify keystore file
-        run: |
-          echo "检查 ./keystore 目录内容："
-          ls -l ./keystore
-
       - name: Copy keystore file
         run: |
           mkdir -p app/keystore
@@ -41,8 +36,15 @@ jobs:
           echo "storePassword=${STORE_PASSWORD}" >> app/keystore/keystore.properties
           echo "keyAlias=${KEY_ALIAS}" >> app/keystore/keystore.properties
           echo "keyPassword=${KEY_PASSWORD}" >> app/keystore/keystore.properties
-          echo "检查 app/keystore 目录内容："
+
+      - name: Verify keystore setup (安全检查)
+        run: |
+          echo "=== 检查 app/keystore 目录内容 ==="
           ls -l app/keystore
+          echo "=== 检查 keystore.properties 中的 storeFile 字段 ==="
+          grep "storeFile" app/keystore/keystore.properties
+          echo "=== 检查 keystore.properties 中的 keyAlias 字段 ==="
+          grep "keyAlias" app/keystore/keystore.properties
 
       - name: Set up Java
         uses: actions/setup-java@v5
