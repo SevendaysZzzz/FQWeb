@@ -32,7 +32,7 @@ jobs:
 
       - name: Prepare keystore.properties
         run: |
-          echo "storeFile=app/keystore/$(ls app/keystore/*.jks | xargs -n1 basename)" > app/keystore/keystore.properties
+          echo "storeFile=keystore/$(ls app/keystore/*.jks | xargs -n1 basename)" > app/keystore/keystore.properties
           echo "storePassword=${STORE_PASSWORD}" >> app/keystore/keystore.properties
           echo "keyAlias=${KEY_ALIAS}" >> app/keystore/keystore.properties
           echo "keyPassword=${KEY_PASSWORD}" >> app/keystore/keystore.properties
