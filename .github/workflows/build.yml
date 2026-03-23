@@ -73,7 +73,9 @@ jobs:
         run: |
           echo "开始编译 Debug 包"
           chmod +x gradlew
-          ./gradlew :app:assembleDebug --build-cache --parallel --daemon --warning-mode all --info
+          ./gradlew clean
+          ./gradlew :app:assembleDebug --no-build-cache --rerun-tasks --info
+          rm -rf ~/.gradle/caches/
 
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v6
