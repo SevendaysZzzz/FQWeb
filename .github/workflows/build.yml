@@ -65,6 +65,8 @@ jobs:
         run: |
           echo "开始编译 Release 包"
           chmod +x gradlew
+          ./gradlew clean
+          sleep 5
           ./gradlew :app:assembleRelease --build-cache --parallel --daemon --warning-mode all --info
 
       - name: Build Debug APK
